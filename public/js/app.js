@@ -15,7 +15,35 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
     // console.log("test test ");
 
     $scope.channel.bind('my_event', function(data) {
-      console.log(data.message);
+    	$scope.gameData = data;
+      	console.log("hit");
+
+
+      $scope.drawPieces = function () {
+        var canvas = document.getElementById('myCanvas');
+        var context = canvas.getContext('2d');
+
+        canvas.width = canvas.width;
+
+        for(i=0; i< 22; i++){
+        	for(j=0; j<12; j++ ) {
+        		if ($scope.gameData[j][i]){
+	        		context.rect( (j+1)*20,(i+1)*20,20,20);
+					context.fillStyle="blue";
+					context.fill();
+				}
+        	}
+        }
+
+		
+
+
+	  }
+
+    	$scope.drawPieces();
+
+
+
     });
 
 
