@@ -19,7 +19,7 @@ type BoardTetrimino struct {
 }
 
 type Grid struct {
-	cells [][]bool
+	cells [][]uint8
 }
 
 func (g *Grid) consumeTetrimino(row, col int, t *Tetrimino) {
@@ -28,7 +28,7 @@ func (g *Grid) consumeTetrimino(row, col int, t *Tetrimino) {
 		for shapecol := range t.Shape[shaperow] {
 			if 0 <= col+shapecol && col+shapecol < len(g.cells[0]) && row+shaperow < len(g.cells) {
 				if t.Shape[shaperow][shapecol] == 1 {
-					g.cells[row+shaperow][col+shapecol] = true
+					g.cells[row+shaperow][col+shapecol] = t.Type
 				}
 			}
 		}
@@ -58,14 +58,11 @@ func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 				continue
 			}
 
-			fmt.Println("ROW", row, "X", x, "+", row+x)
-
 			if row+x >= len(g.cells) {
-				fmt.Println("CONT")
 				continue
 			}
 
-			if g.cells[row+y][col+x] == true {
+			if g.cells[row+y][col+x] != 0 {
 				return true
 			}
 		}
@@ -75,25 +72,25 @@ func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 }
 
 func (g *Grid) print(current *BoardTetrimino) {
-	tcells := make([][]bool, len(g.cells))
+	tcells := make([][]uint8, len(g.cells))
 
 	for y := range g.cells {
-		tcells[y] = make([]bool, len(g.cells[y]))
+		tcells[y] = make([]uint8, len(g.cells[y]))
 		copy(tcells[y], g.cells[y])
 	}
 
 	for y := range current.Tetrimino.Shape {
 		for x := range current.Tetrimino.Shape[y] {
 			if y+current.row < len(g.cells) && current.Tetrimino.Shape[y][x] == 1 {
-				tcells[y+current.row][x+current.col] = current.Tetrimino.Shape[y][x] == 1
+				tcells[y+current.row][x+current.col] = current.Tetrimino.Type
 			}
 		}
 	}
 
 	for row := range tcells {
 		for col := range tcells[row] {
-			if tcells[row][col] {
-				fmt.Print(" X ")
+			if tcells[row][col] != 0 {
+				fmt.Printf(" %c ", tcells[row][col])
 			} else {
 				fmt.Print("   ")
 			}
@@ -104,10 +101,10 @@ func (g *Grid) print(current *BoardTetrimino) {
 }
 
 func newGrid(rows, cols int) *Grid {
-	cells := make([][]bool, rows)
+	cells := make([][]uint8, rows)
 
 	for i := range cells {
-		cells[i] = make([]bool, cols)
+		cells[i] = make([]uint8, cols)
 	}
 
 	return &Grid{cells: cells}
