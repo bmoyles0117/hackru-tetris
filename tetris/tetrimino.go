@@ -25,6 +25,48 @@ type Tetrimino struct {
 	Shape [][]byte
 }
 
+func (t *Tetrimino) GetLeftmostColumn() int {
+	min_col := len(t.Shape[0]) - 1
+
+	for row := range t.Shape {
+		for col := range t.Shape[row] {
+			if t.Shape[row][col] == 1 && col < min_col {
+				min_col = col
+			}
+		}
+	}
+
+	return min_col
+}
+
+func (t *Tetrimino) GetRightmostCol() int {
+	max_col := 0
+
+	for row := range t.Shape {
+		for col := range t.Shape[row] {
+			if t.Shape[row][col] == 1 && col > max_col {
+				max_col = col
+			}
+		}
+	}
+
+	return max_col
+}
+
+func (t *Tetrimino) GetLowestRow() int {
+	max_row := 0
+
+	for row := range t.Shape {
+		for col := range t.Shape[row] {
+			if t.Shape[row][col] == 1 && row > max_row {
+				max_row = row
+			}
+		}
+	}
+
+	return max_row
+}
+
 var generator = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func generateRandomTetrimino() *Tetrimino {
