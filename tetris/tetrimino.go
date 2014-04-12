@@ -21,18 +21,14 @@ const (
 )
 
 type Tetrimino struct {
-	Rotation int
-	Type     int
-	Shape    [][]byte
+	Type  int
+	Shape [][]byte
 }
 
 var generator = rand.New(rand.NewSource(time.Now().UnixNano()))
 
-func GenerateRandomTetrimino() *Tetrimino {
-	tetrimino := &Tetriminos[generator.Int()%len(Tetriminos)]
-	tetrimino.Rotation = generator.Int() % 4 * 90
-
-	return tetrimino
+func generateRandomTetrimino() *Tetrimino {
+	return &Tetriminos[generator.Int()%len(Tetriminos)]
 }
 
 var Tetriminos = []Tetrimino{
