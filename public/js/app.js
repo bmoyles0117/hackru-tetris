@@ -14,8 +14,12 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
 
 
     $scope.channel.bind('my_event', function(data) {
-    	$scope.gameData = data.board;
+    	$scope.gameData = data.cells;
 
+      if(data.game_over) {
+        alert('GAME OVER');
+        return
+      }
 
 
       $scope.drawPieces = function () {

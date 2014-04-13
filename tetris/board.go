@@ -24,7 +24,6 @@ type Grid struct {
 }
 
 func (g *Grid) clearFilledLines() {
-	fmt.Println("CHECKING LINES")
 	new_cells := make([][]uint8, len(g.cells))
 
 	for row := 0; row < len(g.cells); row++ {
@@ -54,7 +53,6 @@ func (g *Grid) clearFilledLines() {
 }
 
 func (g *Grid) consumeTetrimino(row, col int, t *Tetrimino) {
-	fmt.Println("INSERT INTO ROW", row, "COL", col)
 	for shaperow := range t.Shape {
 		for shapecol := range t.Shape[shaperow] {
 			if 0 <= col+shapecol && col+shapecol < len(g.cells[0]) && row+shaperow < len(g.cells) {
@@ -164,17 +162,17 @@ type Board struct {
 func (b *Board) AddTetrimino() bool {
 	if b.next != nil {
 		// Stash the current piece in the list of pieces
-		fmt.Println("mewoz", b.next.row)
-
 		b.tetriminos = append(b.tetriminos, b.current)
 
 		b.grid.consumeTetrimino(b.current.row, b.current.col, b.current.Tetrimino)
 
-		if !b.grid.tetriminoCausesCollision(b.next.row, b.next.col, b.next.Tetrimino) {
+		if b.grid.tetriminoCausesCollision(b.next.row, b.next.col, b.next.Tetrimino) {
+			b.grid.consumeTetrimino(b.next.row, b.next.col, b.next.Tetrimino)
 
 			fmt.Println("ENDING HERE ", b.next.row)
 			return false
 		}
+
 		b.current = b.next
 
 	} else {
@@ -252,12 +250,12 @@ func (b *Board) Run() {
 	ticker := time.NewTicker(200 * time.Millisecond)
 
 	for {
+		go sendBoard(b)
+
 		if b.game_over {
 			b.running = false
 			break
 		}
-
-		go sendBoard(b)
 
 		select {
 		case <-ticker.C:
@@ -306,6 +304,7 @@ func BoardToJson(b *Board) ([]byte, error) {
 	}
 
 	return json.Marshal(map[string]interface{}{
-		"board": tcells,
+		"game_over": b.game_over,
+		"cells":     tcells,
 	})
 }
