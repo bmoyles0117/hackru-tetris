@@ -3,7 +3,7 @@
 <div ng-controller="HomepageCtrl"  style="max-height:800px;margin:auto; margin-top:100px;" >
     <h1 style="text-align:center; font-color:#FFFFFF;margin-top:-10px;" ng-show="teams == 1"> To play is easy , text L,R,D,Z(Z IS ROTATE), to <Strong>+732-730-5402</Strong> </h1>
 
-    <h1 style="text-align:center; color:#FFFFFF!important;" ng-show="teams == 2"> Left team text <Strong>+732-810-0350</Strong> from <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ1hbfCqY-VaD8wac0xwfAo157r25iKkumqQy5YEEWqVLZYn8FXqA" width="200px" height="80px" style="margin-right:10px;"/> | Right team text <Strong>+732-810-0350</Strong> from <img src="http://dobsondev.com/wp-content/uploads/2014/01/twilio-logo-2100x650.png" width="150px" height="70px"  /> <br> Just text L for Left, R for Right, D for Down, or Z for Rotate(Counter clockwise) </h1>
+    <h1 style="text-align:center; color:#2F2F2F!important;" ng-show="teams == 2"> Left team text <Strong>+732-810-0350</Strong> from <img src="http://cheshirecatalyst.com/images/telapi02.jpg" width="200px" height="80px" style="margin-right:10px;"/> | Right team text <Strong>+732-810-0350</Strong> from <img src="http://dobsondev.com/wp-content/uploads/2014/01/twilio-logo-2100x650.png" width="150px" height="70px"  /> <br> Just text L for Left, R for Right, D for Down, or Z for Rotate(Counter clockwise) </h1>
 
     <div style="width:100%; margin:auto; text-align:center;">
         <canvas id="player1_board" width="500" height="750" style="margin-top:25px;border:5px solid #F2F2F2;display:inline-block;"></canvas>
@@ -15,9 +15,16 @@
                 <button type="button" class="btn btn-default" ng-click="teams = 1">1 Team</button>
                 <button type="button" class="btn btn-default" ng-click="teams = 2">2 Teams</button>
             </div>
-            <canvas id="player1_next"  width="100" height="100" style="margin-top:100px;border:5px solid #F2F2F2; margin-bottom:200px; padding:50px;"></canvas>
 
-            <canvas id="player2_next"  width="100" height="100" style=" margin-top:-100px;border:5px solid #F2F2F2; padding:50px;"></canvas>
+            <div style="position : relative;">
+                <img src="/public/img/arrow-left.png" style="position : absolute; width : 60px; height : 60px; top : 170px; left : -30px" />
+                <canvas id="player1_next"  width="100" height="100" style="margin-top:100px;border:5px solid #F2F2F2; margin-bottom:200px; padding:50px;"></canvas>
+            </div>
+
+            <div style="position : relative;">
+                <img src="/public/img/arrow-right.png" style="position : absolute; width : 60px; height : 60px; top : -30px; right : -30px" />
+                <canvas id="player2_next"  width="100" height="100" style=" margin-top:-100px;border:5px solid #F2F2F2; padding:50px;"></canvas>
+            </div>
         </div>
 
         <canvas id="player2_board" ng-show="teams == 2" width="500" height="750" style="margin-top:25px;border:5px solid #F2F2F2;display:inline-block;"></canvas>
@@ -25,7 +32,7 @@
         <div class="container">
             <div class="row">
                 <div class="span6">
-           Z         {{template "flash.html" .}}
+                    {{template "flash.html" .}}
                 </div>
             </div>
         </div>
