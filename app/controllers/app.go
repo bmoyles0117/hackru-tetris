@@ -11,10 +11,6 @@ type App struct {
 }
 
 func (c App) Index() revel.Result {
-	for i := range app.Boards {
-		go app.Boards[i].Run()
-	}
-
 	return c.Render()
 }
 
@@ -28,4 +24,12 @@ func (c App) Move() revel.Result {
 	app.Boards[c.Params.Get("To")].Move(direction_string[0])
 
 	return c.RenderText("Moved!")
+}
+
+func (c App) Start() revel.Result {
+	for i := range app.Boards {
+		go app.Boards[i].Run()
+	}
+
+	return c.RenderText("OK")
 }
