@@ -1,6 +1,7 @@
 package tetris
 
 import (
+	// "fmt"
 	"math/rand"
 	"time"
 )
@@ -65,6 +66,32 @@ func (t *Tetrimino) GetLowestRow() int {
 	}
 
 	return max_row
+}
+
+func (t *Tetrimino) Rotate() {
+	size := int(len(t.Shape[0]))
+	transposed := createNewShape(size)
+
+	for i := 0; i < size; i++ {
+		for j := 0; j < size; j++ {
+			transposed[size-i-1][j] = t.Shape[j][i]
+		}
+	}
+
+	for row := range t.Shape {
+		for col := range t.Shape[row] {
+			t.Shape[row][col] = transposed[row][col]
+		}
+	}
+
+}
+
+func createNewShape(size int) [][]byte {
+	shape := make([][]byte, size)
+	for i := range shape {
+		shape[i] = make([]byte, size)
+	}
+	return shape
 }
 
 var generator = rand.New(rand.NewSource(time.Now().UnixNano()))

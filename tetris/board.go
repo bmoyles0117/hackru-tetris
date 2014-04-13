@@ -150,6 +150,7 @@ func (b *Board) move(move_direction uint8) {
 		}
 
 	case DIRECTION_UP:
+		b.current.Tetrimino.Rotate()
 		// Add counter clockwise rotation here
 
 	case DIRECTION_RIGHT:
