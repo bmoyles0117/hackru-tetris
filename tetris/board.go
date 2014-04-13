@@ -68,14 +68,19 @@ func (g *Grid) consumeTetrimino(row, col int, t *Tetrimino) {
 
 func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 	if col+t.GetRightmostCol() >= len(g.cells[0]) {
+		fmt.Println("right barrier")
 		return true
 	}
 
 	if col+t.GetLeftmostColumn() < 0 {
+		fmt.Println("left barrier")
+
 		return true
 	}
 
 	if row+t.GetLowestRow() >= len(g.cells) {
+		fmt.Println("low barrier", len(g.cells), row, t.GetLowestRow())
+
 		return true
 	}
 
@@ -94,6 +99,8 @@ func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 			}
 
 			if g.cells[row+y][col+x] != 0 {
+				fmt.Println("piece conflict barrier")
+
 				return true
 			}
 		}
@@ -157,24 +164,28 @@ type Board struct {
 func (b *Board) AddTetrimino() bool {
 	if b.next != nil {
 		// Stash the current piece in the list of pieces
+		fmt.Println("mewoz", b.next.row)
+
 		b.tetriminos = append(b.tetriminos, b.current)
 
 		b.grid.consumeTetrimino(b.current.row, b.current.col, b.current.Tetrimino)
 
-		b.current = b.next
-		if !b.grid.tetriminoCausesCollision(b.current.row, b.current.col-1, b.next) {
+		if !b.grid.tetriminoCausesCollision(b.next.row, b.next.col, b.next.Tetrimino) {
+
+			fmt.Println("ENDING HERE ", b.next.row)
 			return false
 		}
-
-		return true
+		b.current = b.next
 
 	} else {
 		b.current = b.generateRandomTetrimino()
 
-		return true
 	}
 
 	b.next = b.generateRandomTetrimino()
+
+	return true
+
 }
 
 func (b *Board) Move(move_direction uint8) {
