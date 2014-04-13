@@ -8,7 +8,7 @@ import (
 
 var Boards = map[string]*tetris.Board{
 	"+17327305402": tetris.NewBoard("+17327305402", 22, 12),
-	"+12096427257": tetris.NewBoard("+12096427257", 22, 12),
+	"+7325954183":  tetris.NewBoard("+7325954183", 22, 12),
 }
 
 func init() {
