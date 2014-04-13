@@ -45,6 +45,10 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
         $scope.player2_won = true;
       }
       $scope.$apply();
+    } else {
+      $scope.player1_won = false;
+      $scope.player2_won = false;
+      $scope.$apply();
     }
 
     if(data.game_over) {
