@@ -1,6 +1,7 @@
 package app
 
 import (
+	// "fmt"
 	"github.com/bmoyles0117/hackru-tetris/tetris"
 	"github.com/revel/revel"
 )
@@ -11,6 +12,13 @@ var Boards = map[string]*tetris.Board{
 }
 
 func init() {
+	for i := range Boards {
+		Boards[i].OnGameover(func() {
+			for i := range Boards {
+				Boards[i].Stop()
+			}
+		})
+	}
 	// Filters is the default set of global filters.
 	revel.Filters = []revel.Filter{
 		revel.PanicFilter,             // Recover from panics and display an error page instead.

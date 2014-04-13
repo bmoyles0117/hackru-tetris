@@ -32,6 +32,7 @@ type Board struct {
 	running    bool
 	game_over  bool
 	moves_list []string
+	callbacks  []func()
 }
 
 func (b *Board) AddTetrimino() bool {
@@ -58,7 +59,10 @@ func (b *Board) AddTetrimino() bool {
 	b.next = b.generateRandomTetrimino()
 
 	return true
+}
 
+func (b *Board) OnGameover(callback func()) {
+	b.callbacks = append(b.callbacks, callback)
 }
 
 func (b *Board) Move(move_direction uint8) {
@@ -91,7 +95,12 @@ func (b *Board) move(move_direction uint8) {
 		if !b.grid.tetriminoCausesCollision(b.current.row+1, b.current.col, b.current.Tetrimino) {
 			b.current.row += 1
 		} else {
-			if !b.AddTetrimino() { //check is in AddTetrimino
+			// Collision check is in AddTetrimino
+			if !b.AddTetrimino() {
+				for i := range b.callbacks {
+					b.callbacks[i]()
+				}
+
 				b.game_over = true
 			}
 
@@ -125,9 +134,13 @@ func (b *Board) Run() {
 	for {
 		go sendBoard(b)
 
+		if !b.running {
+			return
+		}
+
 		if b.game_over {
 			b.running = false
-			break
+			return
 		}
 
 		select {
@@ -142,6 +155,10 @@ func (b *Board) Run() {
 	}
 }
 
+func (b *Board) Stop() {
+	b.running = false
+}
+
 func NewBoard(board_key string, rows, cols int) *Board {
 	board := &Board{
 		Key:        board_key,
@@ -150,6 +167,7 @@ func NewBoard(board_key string, rows, cols int) *Board {
 		grid:       newGrid(rows, cols),
 		tetriminos: make([]*BoardTetrimino, 0),
 		moves:      make(chan uint8, 10),
+		callbacks:  make([]func(), 0),
 	}
 
 	board.AddTetrimino()
