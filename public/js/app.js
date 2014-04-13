@@ -40,6 +40,9 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
 
             if ($scope.gameData[i][j] != 0){
     					context.fillStyle=colors[$scope.gameData[i][j]];
+              context.strokeStyle="white";
+              context.strokeRect( ((canvas.width/12)*j) ,((canvas.height/22)*i),canvas.width/12, canvas.height/22);
+
               context.fillRect( ((canvas.width/12)*j) ,((canvas.height/22)*i),canvas.width/12, canvas.height/22);
  
     				}
