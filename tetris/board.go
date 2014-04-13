@@ -45,7 +45,6 @@ func (b *Board) AddTetrimino() bool {
 		if b.grid.tetriminoCausesCollision(b.next.row, b.next.col, b.next.Tetrimino) {
 			b.grid.consumeTetrimino(b.next.row, b.next.col, b.next.Tetrimino)
 
-			fmt.Println("ENDING HERE ", b.next.row)
 			return false
 		}
 
@@ -126,7 +125,6 @@ func (b *Board) reset() {
 	b.grid = newGrid(b.Rows, b.Columns)
 	b.tetriminos = make([]*BoardTetrimino, 0)
 	b.moves = make(chan uint8, 10)
-	b.callbacks = make([]func(), 0)
 
 	b.AddTetrimino()
 }
@@ -216,6 +214,7 @@ func BoardToJson(b *Board) ([]byte, error) {
 
 	return json.Marshal(map[string]interface{}{
 		"board_key": b.Key,
+		"running":   b.running,
 		"game_over": b.game_over,
 		"cells":     tcells,
 		"next_piece": map[string]interface{}{

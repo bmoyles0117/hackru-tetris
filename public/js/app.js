@@ -7,6 +7,10 @@ tetrisApp = angular.module("tetrisApp" , [])
 tetrisApp.directive('gameStarter', function() {
   return function($scope, element, attrs) {
     element.bind('click', function() {
+      $scope.player1_won = false;
+      $scope.player2_won = false;
+      $scope.$apply();
+
       $.post('/start');
       
       return false;
@@ -33,6 +37,15 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
 
   channel.bind('my_event', function(data) {
     $scope.game_over = data.game_over;
+
+    if(!data.running && !data.game_over) {
+      if(data.board_key == "+17327305402") {
+        $scope.player1_won = true;
+      } else {
+        $scope.player2_won = true;
+      }
+      $scope.$apply();
+    }
 
     if(data.game_over) {
       return
