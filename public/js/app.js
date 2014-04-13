@@ -12,11 +12,10 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
     $scope.pusher = new Pusher('80f71c71ecfd0ce866eb');
     $scope.channel = $scope.pusher.subscribe('my_channel');
 
-    // console.log("test test ");
 
     $scope.channel.bind('my_event', function(data) {
-    	$scope.gameData = data;
-      	console.log("hit");
+    	$scope.gameData = data.board;
+
 
 
       $scope.drawPieces = function () {
@@ -25,14 +24,22 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
 
         canvas.width = canvas.width;
 
-        for(i=0; i< 22; i++){
+
+
+        for(i=0; i<22; i++){
         	for(j=0; j<12; j++ ) {
-        		if ($scope.gameData[j][i]){
-	        		context.rect( (j+1)*20,(i+1)*20,20,20);
-					context.fillStyle="blue";
-					context.fill();
-				}
+
+            if ($scope.gameData[i][j] == 1){
+    					context.fillStyle="blue";
+    				}else{
+    					context.fillStyle="red";
+    				}
+
+            context.fillRect( ((canvas.width/12)*j) ,((canvas.height/22)*i),canvas.width/12, canvas.height/22);
+
+
         	}
+
         }
 
 		
