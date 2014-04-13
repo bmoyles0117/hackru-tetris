@@ -4,7 +4,19 @@ tetrisApp = angular.module("tetrisApp" , [])
   // 	  $interpolateProvider.startSymbol('[[');
   // 	  $interpolateProvider.endSymbol(']]');
   // })
+tetrisApp.directive('gameStarter', function() {
+  return function($scope, element, attrs) {
+    console.log(element);
+
+    element.bind('click', function() {
+      $.post('/start');
+      
+      return false;
+    });
+  }
+})
 tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
+    $scope.game_over = true;
     $scope.game_over1 = true;
     $scope.game_over2 = true;
 

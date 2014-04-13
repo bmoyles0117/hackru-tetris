@@ -119,6 +119,10 @@ func (b *Board) generateRandomTetrimino() *BoardTetrimino {
 }
 
 func (b *Board) reset() {
+	b.game_over = false
+	b.running = false
+	b.current = nil
+	b.next = nil
 	b.grid = newGrid(b.Rows, b.Columns)
 	b.tetriminos = make([]*BoardTetrimino, 0)
 	b.moves = make(chan uint8, 10)

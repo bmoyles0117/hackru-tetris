@@ -6,7 +6,8 @@ module:testrunner
 
 GET     /                                       App.Index
 GET     /move                                   App.Move
-POST     /move                                   App.Move
+POST   	/move                                   App.Move
+POST   	/start                                  App.Start
 
 
 # Ignore favicon requests
