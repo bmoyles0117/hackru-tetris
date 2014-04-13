@@ -214,7 +214,7 @@ func (b *Board) Run() {
 
 	fmt.Println("STARTED BOARD")
 
-	// b.running = true
+	b.running = true
 
 	// ticker := time.NewTicker(1 * time.Second)
 

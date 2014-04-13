@@ -3,7 +3,7 @@ package tetris
 import (
 	"fmt"
 	"github.com/timonv/pusher"
-	// "time"
+	"time"
 )
 
 func sendBoard(board *Board) error {
@@ -14,7 +14,7 @@ func sendBoard(board *Board) error {
 		return err
 	}
 
-	client := pusher.NewClient("71664", "80f71c71ecfd0ce866eb", "94130ff49932d65f5515")
+	client := pusher.NewClient("67131", "c2388f10a4afc865f3a5", "f4ab253ab07e424d993d")
 
 	done := make(chan bool)
 
@@ -30,15 +30,15 @@ func sendBoard(board *Board) error {
 		done <- true
 	}()
 
-	// select {
+	select {
 
-	// case <-done:
-	// 	fmt.Println("Done :-)")
+	case <-done:
+		fmt.Println("Done :-)")
 
-	// case <-time.After(1 * time.Minute):
-	// 	fmt.Println("Timeout :-(")
+	case <-time.After(1 * time.Minute):
+		fmt.Println("Timeout :-(")
 
-	// }
+	}
 	return nil
 
 }
