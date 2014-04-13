@@ -23,7 +23,7 @@ func (c App) Move() revel.Result {
 
 	app.Boards[c.Params.Get("To")].Move(direction_string[0])
 
-	return c.RenderText("Moved!")
+	return c.RenderText("")
 }
 
 func (c App) Start() revel.Result {
