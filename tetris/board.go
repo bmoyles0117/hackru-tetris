@@ -121,6 +121,7 @@ type Board struct {
 	tetriminos []*BoardTetrimino
 	moves      chan uint8
 	running    bool
+	game_over  bool
 }
 
 func (b *Board) AddTetrimino() {
@@ -150,7 +151,11 @@ func (b *Board) move(move_direction uint8) {
 		}
 
 	case DIRECTION_UP:
-		b.current.Tetrimino.Rotate()
+		transposed_tetrimino := b.current.Tetrimino.Rotate()
+		if !b.grid.tetriminoCausesCollision(b.current.row, b.current.col+1, transposed_tetrimino) {
+			b.current.Tetrimino = transposed_tetrimino
+		}
+
 		// Add counter clockwise rotation here
 
 	case DIRECTION_RIGHT:
@@ -162,7 +167,9 @@ func (b *Board) move(move_direction uint8) {
 		if !b.grid.tetriminoCausesCollision(b.current.row+1, b.current.col, b.current.Tetrimino) {
 			b.current.row += 1
 		} else {
+			//CLEAR
 			b.AddTetrimino()
+			//CHECK
 		}
 	}
 

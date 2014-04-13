@@ -68,7 +68,7 @@ func (t *Tetrimino) GetLowestRow() int {
 	return max_row
 }
 
-func (t *Tetrimino) Rotate() {
+func (t *Tetrimino) Rotate() Tetrimino {
 	size := int(len(t.Shape[0]))
 	transposed := createNewShape(size)
 
@@ -82,6 +82,11 @@ func (t *Tetrimino) Rotate() {
 		for col := range t.Shape[row] {
 			t.Shape[row][col] = transposed[row][col]
 		}
+	}
+
+	return &Tetrimino{
+		Type:  t.Type,
+		Shape: transposed,
 	}
 
 }
