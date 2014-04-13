@@ -102,8 +102,8 @@ func createNewShape(size int) [][]byte {
 var generator = rand.New(rand.NewSource(time.Now().UnixNano()))
 
 func generateRandomTetrimino() *Tetrimino {
-	return &Tetriminos[0]
-	// return &Tetriminos[generator.Int()%len(Tetriminos)]
+	// return &Tetriminos[0]
+	return &Tetriminos[generator.Int()%len(Tetriminos)]
 }
 
 var Tetriminos = []Tetrimino{

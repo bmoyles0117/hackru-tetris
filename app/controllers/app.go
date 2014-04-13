@@ -33,7 +33,7 @@ func (c App) Move() revel.Result {
 	recieved_number := c.Params.Get("From")
 	recieved_data := recieved_number[0:3] + "*******" + recieved_number[9:12] + " sent : " + direction_string
 	fmt.Println(recieved_data)
-	// getBoard().Move(direction_string[0])
+	getBoard().Move(direction_string[0])
 
 	// fmt.Println(c.Params.Get("test"))
 

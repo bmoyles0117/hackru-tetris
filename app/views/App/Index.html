@@ -1,27 +1,32 @@
 {{set . "title" "Home"}}
 {{template "header.html" .}}
-<div ng-controller="HomepageCtrl"  style="max-height:820px;margin:auto;" >
+<div ng-controller="HomepageCtrl"  style="max-height:800px;margin:auto; margin-top:100px;" >
+
+<h1 style="text-align:center; font-color:#FFFFFF;margin-top:-10px;" ng-show="teams == 1"> To play is easy , text L,R,D,U(U IS ROTATE), to <Strong>+732-730-5402</Strong> </h1>
+
+<h1 style="text-align:center; font-color:#FFFFFF" ng-show="teams == 2"> To play on the left team text <Strong>+732-730-5402</Strong> | To play on the right team text <Strong>+###-###-####</Strong><br> Just text L for Left, R for Right, D for Down, or U for Rotate(Counter clockwise) </h1>
+
 
 <div style="width:100%; margin:auto; text-align:center;">
-    <canvas id="myCanvas"  width="500" height="850"
-    style="margin-top:100px;border:3px solid #000000;display:inline-block;">
+    <canvas id="myCanvas"  width="500" height="750"
+    style="margin-top:25px;border:3px solid #FFFFFF;display:inline-block;">
     </canvas>
 
-    <div style="width:210px;display:inline-block; text-align:center;border: 2px solid red;">
-        <button type="button" class=" btn-success btn-lg" style="margin-bottom:25px;" ng-click="console.log('mew');" disabled="[[!scope.game_over]]">Start Game</button>
+    <div style="width:230px;display:inline-block; text-align:center;">
+        <button type="button" class=" btn-success btn-lg" style="margin-bottom:25px;" disabled="[[!scope.game_over]]">Start Game</button>
 
         <div class="btn-group" style="">
     <button type="button" class="btn btn-default" ng-click="teams = 1">1 Team</button>
     <button type="button" class="btn btn-default" ng-click="teams = 2">2 Teams</button>
   </div>
        <canvas id="myCanvas2"  width="200" height="200"
-      style="margin-top:100px;border:3px solid #000000; margin-bottom:300px">
+      style="margin-top:100px;border:3px solid #FFFFFF; margin-bottom:300px;">
       </canvas>
     </div>
 
 
-   <canvas id="myCanvas3" ng-show="teams == 2" width="500" height="850"
-    style="margin-top:100px;border:3px solid #000000;display:inline-block;">
+   <canvas id="myCanvas3" ng-show="teams == 2" width="500" height="750"
+    style="margin-top:25px;border:3px solid #FFFFFF;display:inline-block; background-color:black;">
     </canvas>
 
     <div class="container">
@@ -34,4 +39,4 @@
 </div>
 </div>
 
-{{template "footer.html" .}}
+<!-- {{template "footer.html" .}} -->
