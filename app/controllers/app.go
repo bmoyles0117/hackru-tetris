@@ -28,9 +28,11 @@ func (c App) Index() revel.Result {
 }
 
 func (c App) Move() revel.Result {
-	getBoard().Move(c.Params.Get("test")[0])
+	direction_string := c.Params.Get("Body")
 
-	fmt.Println(c.Params.Get("test"))
+	getBoard().Move(direction_string[0])
+
+	// fmt.Println(c.Params.Get("test"))
 
 	return c.RenderText("Moved!")
 }
