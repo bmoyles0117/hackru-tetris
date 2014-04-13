@@ -124,7 +124,7 @@ type Board struct {
 	game_over  bool
 }
 
-func (b *Board) AddTetrimino() {
+func (b *Board) AddTetrimino() bool {
 	if b.next != nil {
 		// Stash the current piece in the list of pieces
 		b.tetriminos = append(b.tetriminos, b.current)
@@ -132,8 +132,16 @@ func (b *Board) AddTetrimino() {
 		b.grid.consumeTetrimino(b.current.row, b.current.col, b.current.Tetrimino)
 
 		b.current = b.next
+		if !b.grid.tetriminoCausesCollision(b.current.row, b.current.col-1, b.next) {
+			return false
+		}
+
+		return true
+
 	} else {
 		b.current = b.generateRandomTetrimino()
+
+		return true
 	}
 
 	b.next = b.generateRandomTetrimino()
@@ -168,8 +176,9 @@ func (b *Board) move(move_direction uint8) {
 			b.current.row += 1
 		} else {
 			//CLEAR
-			b.AddTetrimino()
-			//CHECK
+			if !b.AddTetrimino() { //check is in AddTetrimino
+				b.game_over = true
+			}
 		}
 	}
 
