@@ -134,6 +134,7 @@ func (g *Grid) print(current *BoardTetrimino) {
 		fmt.Printf("\n")
 	}
 	fmt.Println("------------------------------------")
+
 }
 
 func newGrid(rows, cols int) *Grid {
@@ -157,6 +158,7 @@ type Board struct {
 	moves      chan uint8
 	running    bool
 	game_over  bool
+	moves_list []string
 }
 
 func (b *Board) AddTetrimino() bool {
@@ -243,7 +245,7 @@ func (b *Board) Run() {
 
 	fmt.Println("STARTED BOARD")
 
-	b.running = true
+	// b.running = true
 
 	// ticker := time.NewTicker(1 * time.Second)
 
@@ -304,7 +306,8 @@ func BoardToJson(b *Board) ([]byte, error) {
 	}
 
 	return json.Marshal(map[string]interface{}{
-		"game_over": b.game_over,
-		"cells":     tcells,
+		"game_over":  b.game_over,
+		"cells":      tcells,
+		"next_piece": b.next.Tetrimino,
 	})
 }

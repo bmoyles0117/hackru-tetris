@@ -5,8 +5,9 @@ tetrisApp = angular.module("tetrisApp" , [])
   // 	  $interpolateProvider.endSymbol(']]');
   // })
 tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
-
+    $scope.game_over = true;
     $scope.loading = true;
+    $scope.teams = 1;
 
 
     $scope.pusher = new Pusher('80f71c71ecfd0ce866eb');
@@ -15,6 +16,8 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
 
     $scope.channel.bind('my_event', function(data) {
     	$scope.gameData = data.cells;
+      $scope.game_over = data.game_over;
+      // $scope.gameNextPiece = data.next_piece;
 
       if(data.game_over) {
         alert('GAME OVER');
@@ -58,6 +61,57 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
         	}
 
         }
+      //   piece_size = ($scope.gameNextPiece.Shape[0]).length;
+
+      //   var parts = [];
+
+      //   for (var i = 0; i < piece_size; i=i+2)
+      //   {
+
+      //       parts.push(parseInt($scope.gameNextPiece.Shape[0][i] + $scope.gameNextPiece.Shape[0][i]));
+      //   }
+
+
+      // for (var i = 0; i < piece_size/2; i++)
+      //   {
+
+      //   console.log("first byte : " + bytes[0]);
+      //   }
+      //   // console.log("first byte : " + bytes[0]);
+
+
+        // var canvas2 = document.getElementById('myCanvas2');
+        // var context2 = canvas2.getContext('2d');
+
+        // canvas.width = canvas.width;
+
+        // piece_size = ($scope.gameNextPiece.Shape[0]).length/2;
+        // console.log($scope.gameNextPiece)
+        // console.log(piece_size);
+
+        // for(i=0; i<piece_size; i++){
+        //   for(j=0; i<piece_size; j++ ) {
+
+        //     // if ($scope.gameData[i][j] != 0){
+        //       context.fillStyle=colors[$scope.gameData[i][j]];
+        //       context.strokeStyle="white";
+        //       context.strokeRect( ((canvas2.width/piece_size)*j) ,((canvas2.height/piece_size)*i),canvas2.width/piece_size, canvas2.height/piece_size);
+
+        //       context.fillRect( ((canvas2.width/piece_size)*j) ,((canvas2.height/piece_size)*i),canvas2.width/piece_size, canvas2.height/piece_size);
+ 
+            // }
+
+
+
+
+
+        //   }
+
+        // }
+
+    
+
+
 
 		
 
