@@ -187,11 +187,13 @@ func (b *Board) Run() {
 
 	b.running = true
 
-	ticker := time.NewTicker(250 * time.Millisecond)
+	ticker := time.NewTicker(1 * time.Second)
 
-	ticker2 := time.NewTicker(5 * time.Second)
+	// ticker2 := time.NewTicker(1000 * time.Millisecond)
 
 	for {
+		go sendBoard(b)
+
 		select {
 		case <-ticker.C:
 			b.move(DIRECTION_DOWN)
@@ -199,11 +201,6 @@ func (b *Board) Run() {
 		case move_direction := <-b.moves:
 			b.move(move_direction)
 
-		case <-ticker2.C:
-			err := sendBoard(b)
-			if err != nil {
-				fmt.Printf("Error : %s", err)
-			}
 		}
 
 	}

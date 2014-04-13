@@ -25,17 +25,27 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
         canvas.width = canvas.width;
 
 
+       colors = {
+          73 : "blue",
+          74 : "green",
+          76 : "yellow",
+          79 : "red",
+          83 : "cyan",
+          84 : "black",
+          90 : "gray"
+       };
 
         for(i=0; i<22; i++){
         	for(j=0; j<12; j++ ) {
 
-            if ($scope.gameData[i][j] == 1){
-    					context.fillStyle="blue";
-    				}else{
-    					context.fillStyle="red";
+            if ($scope.gameData[i][j] != 0){
+    					context.fillStyle=colors[$scope.gameData[i][j]];
+              context.fillRect( ((canvas.width/12)*j) ,((canvas.height/22)*i),canvas.width/12, canvas.height/22);
+ 
     				}
 
-            context.fillRect( ((canvas.width/12)*j) ,((canvas.height/22)*i),canvas.width/12, canvas.height/22);
+
+
 
 
         	}
