@@ -23,6 +23,36 @@ type Grid struct {
 	cells [][]uint8
 }
 
+func (g *Grid) clearFilledLines() {
+	fmt.Println("CHECKING LINES")
+	new_cells := make([][]uint8, len(g.cells))
+
+	for row := 0; row < len(g.cells); row++ {
+		new_cells[row] = make([]uint8, len(g.cells[row]))
+	}
+
+	new_row_index := len(new_cells) - 1
+
+	for row := len(g.cells) - 1; row >= 0; row-- {
+		is_complete := true
+
+		for col := 0; col < len(g.cells[row]); col++ {
+			if g.cells[row][col] == 0 {
+				is_complete = false
+				break
+			}
+		}
+
+		if !is_complete {
+			copy(new_cells[new_row_index], g.cells[row])
+
+			new_row_index -= 1
+		}
+	}
+
+	g.cells = new_cells
+}
+
 func (g *Grid) consumeTetrimino(row, col int, t *Tetrimino) {
 	fmt.Println("INSERT INTO ROW", row, "COL", col)
 	for shaperow := range t.Shape {
@@ -152,6 +182,8 @@ func (b *Board) Move(move_direction uint8) {
 }
 
 func (b *Board) move(move_direction uint8) {
+	b.grid.clearFilledLines()
+
 	switch move_direction {
 	case DIRECTION_LEFT:
 		if !b.grid.tetriminoCausesCollision(b.current.row, b.current.col-1, b.current.Tetrimino) {
@@ -175,14 +207,14 @@ func (b *Board) move(move_direction uint8) {
 		if !b.grid.tetriminoCausesCollision(b.current.row+1, b.current.col, b.current.Tetrimino) {
 			b.current.row += 1
 		} else {
-			//CLEAR
 			if !b.AddTetrimino() { //check is in AddTetrimino
 				b.game_over = true
 			}
+
 		}
 	}
 
-	b.grid.print(b.current)
+	// b.grid.print(b.current)
 }
 
 func (b *Board) generateRandomTetrimino() *BoardTetrimino {
@@ -204,11 +236,16 @@ func (b *Board) Run() {
 
 	b.running = true
 
-	ticker := time.NewTicker(1 * time.Second)
+	// ticker := time.NewTicker(1 * time.Second)
 
-	// ticker2 := time.NewTicker(1000 * time.Millisecond)
+	ticker := time.NewTicker(200 * time.Millisecond)
 
 	for {
+		if b.game_over {
+			b.running = false
+			break
+		}
+
 		go sendBoard(b)
 
 		select {
