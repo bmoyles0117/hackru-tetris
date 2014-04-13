@@ -129,7 +129,7 @@ func (b *Board) Run() {
 
 	// ticker := time.NewTicker(1 * time.Second)
 
-	ticker := time.NewTicker(1000 * time.Millisecond)
+	ticker := time.NewTicker(100 * time.Millisecond)
 
 	for {
 		go sendBoard(b)

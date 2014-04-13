@@ -69,7 +69,7 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
         	}
 
         }
-      //   piece_size = ($scope.gameNextPiece.Shape[0]).length;
+        piece_size = (data.next_piece.Shape[0]).length;
 
       //   var parts = [];
 
