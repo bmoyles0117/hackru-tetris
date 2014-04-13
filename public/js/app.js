@@ -19,13 +19,13 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
   $scope.teams = 2;
 
   $scope.colors = {
-    73 : "blue",
-    74 : "green",
-    76 : "yellow",
-    79 : "red",
-    83 : "cyan",
-    84 : "black",
-    90 : "gray"
+    73 : "#77dcba",
+    74 : "#456cf7",
+    76 : "#1931a8",
+    79 : "#f59c19",
+    83 : "#d7beb8",
+    84 : "#f970e7",
+    90 : "#da3951"
   };
 
   var pusher = new Pusher('c2388f10a4afc865f3a5');
@@ -35,7 +35,6 @@ tetrisApp.controller("HomepageCtrl",["$scope", function($scope) {
     $scope.game_over = data.game_over;
 
     if(data.game_over) {
-      alert('GAME OVER');
       return
     }
 
