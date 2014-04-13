@@ -1,6 +1,14 @@
 package app
 
-import "github.com/revel/revel"
+import (
+	"github.com/bmoyles0117/hackru-tetris/tetris"
+	"github.com/revel/revel"
+)
+
+var Boards = map[string]*tetris.Board{
+	"+17327305402": tetris.NewBoard("+17327305402", 22, 12),
+	"+12096427257": tetris.NewBoard("+12096427257", 22, 12),
+}
 
 func init() {
 	// Filters is the default set of global filters.

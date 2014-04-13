@@ -7,10 +7,10 @@ import (
 )
 
 const (
-	DIRECTION_LEFT  = 'L'
-	DIRECTION_UP    = 'U'
-	DIRECTION_RIGHT = 'R'
-	DIRECTION_DOWN  = 'D'
+	DIRECTION_LEFT   = 'L'
+	DIRECTION_ROTATE = 'Z'
+	DIRECTION_RIGHT  = 'R'
+	DIRECTION_DOWN   = 'D'
 )
 
 type BoardTetrimino struct {
@@ -107,36 +107,6 @@ func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 	return false
 }
 
-func (g *Grid) print(current *BoardTetrimino) {
-	tcells := make([][]uint8, len(g.cells))
-
-	for y := range g.cells {
-		tcells[y] = make([]uint8, len(g.cells[y]))
-		copy(tcells[y], g.cells[y])
-	}
-
-	for y := range current.Tetrimino.Shape {
-		for x := range current.Tetrimino.Shape[y] {
-			if y+current.row < len(g.cells) && current.Tetrimino.Shape[y][x] == 1 {
-				tcells[y+current.row][x+current.col] = current.Tetrimino.Type
-			}
-		}
-	}
-
-	for row := range tcells {
-		for col := range tcells[row] {
-			if tcells[row][col] != 0 {
-				fmt.Printf(" %c ", tcells[row][col])
-			} else {
-				fmt.Print("   ")
-			}
-		}
-		fmt.Printf("\n")
-	}
-	fmt.Println("------------------------------------")
-
-}
-
 func newGrid(rows, cols int) *Grid {
 	cells := make([][]uint8, rows)
 
@@ -148,6 +118,7 @@ func newGrid(rows, cols int) *Grid {
 }
 
 type Board struct {
+	Key     string
 	Rows    int
 	Columns int
 
@@ -201,7 +172,7 @@ func (b *Board) move(move_direction uint8) {
 			b.current.col -= 1
 		}
 
-	case DIRECTION_UP:
+	case DIRECTION_ROTATE:
 		transposed_tetrimino := b.current.Tetrimino.Rotate()
 		if !b.grid.tetriminoCausesCollision(b.current.row, b.current.col+1, transposed_tetrimino) {
 			b.current.Tetrimino = transposed_tetrimino
@@ -224,8 +195,6 @@ func (b *Board) move(move_direction uint8) {
 
 		}
 	}
-
-	// b.grid.print(b.current)
 }
 
 func (b *Board) generateRandomTetrimino() *BoardTetrimino {
@@ -271,8 +240,9 @@ func (b *Board) Run() {
 	}
 }
 
-func NewBoard(rows, cols int) *Board {
+func NewBoard(board_key string, rows, cols int) *Board {
 	board := &Board{
+		Key:        board_key,
 		Rows:       rows,
 		Columns:    cols,
 		grid:       newGrid(rows, cols),
@@ -285,16 +255,22 @@ func NewBoard(rows, cols int) *Board {
 	return board
 }
 
-func BoardToJson(b *Board) ([]byte, error) {
-	// Converting to ints so the values don't condense to alphanumeric
-	tcells := make([][]int, len(b.grid.cells))
+func convertArrays(input [][]uint8) [][]int {
+	converted := make([][]int, len(input))
 
-	for y := range b.grid.cells {
-		tcells[y] = make([]int, len(b.grid.cells[y]))
-		for x := range b.grid.cells[y] {
-			tcells[y][x] = int(b.grid.cells[y][x])
+	for row := range input {
+		converted[row] = make([]int, len(input[row]))
+
+		for col := range input[row] {
+			converted[row][col] = int(input[row][col])
 		}
 	}
+
+	return converted
+}
+
+func BoardToJson(b *Board) ([]byte, error) {
+	tcells := convertArrays(b.grid.cells)
 
 	// Track the falling shape
 	for y := range b.current.Tetrimino.Shape {
@@ -306,8 +282,12 @@ func BoardToJson(b *Board) ([]byte, error) {
 	}
 
 	return json.Marshal(map[string]interface{}{
-		"game_over":  b.game_over,
-		"cells":      tcells,
-		"next_piece": b.next.Tetrimino,
+		"board_key": b.Key,
+		"game_over": b.game_over,
+		"cells":     tcells,
+		"next_piece": map[string]interface{}{
+			"color": b.next.Tetrimino.Type,
+			"shape": convertArrays(b.next.Tetrimino.Shape),
+		},
 	})
 }
