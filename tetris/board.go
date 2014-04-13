@@ -118,10 +118,21 @@ func (b *Board) generateRandomTetrimino() *BoardTetrimino {
 	}
 }
 
+func (b *Board) reset() {
+	b.grid = newGrid(b.Rows, b.Columns)
+	b.tetriminos = make([]*BoardTetrimino, 0)
+	b.moves = make(chan uint8, 10)
+	b.callbacks = make([]func(), 0)
+
+	b.AddTetrimino()
+}
+
 func (b *Board) Run() {
 	if b.running {
 		return
 	}
+
+	b.reset()
 
 	fmt.Println("STARTED BOARD")
 
@@ -129,7 +140,7 @@ func (b *Board) Run() {
 
 	// ticker := time.NewTicker(1 * time.Second)
 
-	ticker := time.NewTicker(1000 * time.Millisecond)
+	ticker := time.NewTicker(100 * time.Millisecond)
 
 	for {
 		go sendBoard(b)
@@ -169,8 +180,6 @@ func NewBoard(board_key string, rows, cols int) *Board {
 		moves:      make(chan uint8, 10),
 		callbacks:  make([]func(), 0),
 	}
-
-	board.AddTetrimino()
 
 	return board
 }
