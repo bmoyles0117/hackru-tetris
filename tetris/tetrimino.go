@@ -11,17 +11,17 @@ const (
 	ROTATION_180 = 180
 	ROTATION_270 = 270
 
-	TETRIMINO_I = 0
-	TETRIMINO_J = 1
-	TETRIMINO_L = 2
-	TETRIMINO_O = 3
-	TETRIMINO_S = 4
-	TETRIMINO_T = 5
-	TETRIMINO_Z = 6
+	TETRIMINO_I = 'I'
+	TETRIMINO_J = 'J'
+	TETRIMINO_L = 'L'
+	TETRIMINO_O = 'O'
+	TETRIMINO_S = 'S'
+	TETRIMINO_T = 'T'
+	TETRIMINO_Z = 'Z'
 )
 
 type Tetrimino struct {
-	Type  int
+	Type  uint8
 	Shape [][]byte
 }
 
