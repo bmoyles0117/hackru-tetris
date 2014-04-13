@@ -1,6 +1,7 @@
 package tetris
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -220,4 +221,29 @@ func NewBoard(rows, cols int) *Board {
 	board.AddTetrimino()
 
 	return board
+}
+
+func BoardToJson(b *Board) ([]byte, error) {
+	// Converting to ints so the values don't condense to alphanumeric
+	tcells := make([][]int, len(b.grid.cells))
+
+	for y := range b.grid.cells {
+		tcells[y] = make([]int, len(b.grid.cells[y]))
+		for x := range b.grid.cells[y] {
+			tcells[y][x] = int(b.grid.cells[y][x])
+		}
+	}
+
+	// Track the falling shape
+	for y := range b.current.Tetrimino.Shape {
+		for x := range b.current.Tetrimino.Shape[y] {
+			if y+b.current.row < len(b.grid.cells) && b.current.Tetrimino.Shape[y][x] == 1 {
+				tcells[y+b.current.row][x+b.current.col] = int(b.current.Tetrimino.Type)
+			}
+		}
+	}
+
+	return json.Marshal(map[string]interface{}{
+		"board": tcells,
+	})
 }
