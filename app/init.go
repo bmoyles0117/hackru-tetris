@@ -4,12 +4,15 @@ import (
 	// "fmt"
 	"github.com/bmoyles0117/hackru-tetris/tetris"
 	"github.com/revel/revel"
+	"sync"
 )
 
 var Boards = map[string]*tetris.Board{
 	"+17327305402": tetris.NewBoard("+17327305402", 22, 12),
-	"+17325954183": tetris.NewBoard("+17325954183", 22, 12),
+	"+12096427257": tetris.NewBoard("+12096427257", 22, 12),
 }
+
+var BoardsMU = &sync.Mutex{}
 
 func init() {
 	for i := range Boards {

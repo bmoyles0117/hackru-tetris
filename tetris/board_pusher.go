@@ -7,6 +7,11 @@ import (
 )
 
 func sendBoard(board *Board) error {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered in f", r)
+		}
+	}()
 
 	data, err := BoardToJson(board)
 

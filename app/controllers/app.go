@@ -21,6 +21,8 @@ func (c App) Move() revel.Result {
 	recieved_data := received_number[2:5] + "*******" + received_number[9:12] + " sent : " + direction_string
 	fmt.Println(recieved_data)
 
+	app.BoardsMU.Lock()
+	defer app.BoardsMU.Unlock()
 	app.Boards[c.Params.Get("To")].Move(direction_string[0])
 
 	return c.RenderText("")
