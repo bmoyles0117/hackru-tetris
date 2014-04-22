@@ -18,7 +18,7 @@ func (c App) Move() revel.Result {
 	direction_string := c.Params.Get("Body")
 
 	received_number := c.Params.Get("From")
-	recieved_data := received_number[2:5] + "*******" + received_number[9:12] + " sent : " + direction_string
+	recieved_data := received_number[2:5] + "***" + received_number[8:12] + " sent : " + direction_string[:1]
 	fmt.Println(recieved_data)
 
 	app.BoardsMU.Lock()
