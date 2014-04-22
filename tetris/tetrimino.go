@@ -2,6 +2,7 @@ package tetris
 
 import (
 	// "fmt"
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -36,6 +37,7 @@ func (t *Tetrimino) GetLeftmostColumn() int {
 			}
 		}
 	}
+	fmt.Println("%i----%i", t.Shape, min_col)
 
 	return min_col
 }

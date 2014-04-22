@@ -71,6 +71,8 @@ func (b *Board) Move(move_direction uint8) {
 func (b *Board) move(move_direction uint8) {
 	b.grid.clearFilledLines()
 
+	fmt.Printf("row : %s, col : %s \n", b.current.row, b.current.col)
+
 	switch move_direction {
 	case DIRECTION_LEFT:
 		if !b.grid.tetriminoCausesCollision(b.current.row, b.current.col-1, b.current.Tetrimino) {
@@ -109,6 +111,8 @@ func (b *Board) move(move_direction uint8) {
 
 func (b *Board) generateRandomTetrimino() *BoardTetrimino {
 	tetrimino := generateRandomTetrimino()
+
+	fmt.Printf("tetrimo type : %s, left most : %i \n", tetrimino.Type, tetrimino.GetLeftmostColumn())
 
 	return &BoardTetrimino{
 		col:       b.Columns/2 - len(tetrimino.Shape)/2,

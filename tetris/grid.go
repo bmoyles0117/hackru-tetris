@@ -67,17 +67,19 @@ func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 		return true
 	}
 
+	fmt.Println("checking Piece conflinct")
+
 	for y := range t.Shape {
 		for x := range t.Shape[y] {
 			if t.Shape[y][x] == 0 {
 				continue
 			}
 
-			if col+y >= len(g.cells) {
+			if col+x >= len(g.cells[0]) {
 				continue
 			}
 
-			if row+x >= len(g.cells) {
+			if row+y >= len(g.cells) {
 				continue
 			}
 
@@ -88,6 +90,7 @@ func (g *Grid) tetriminoCausesCollision(row, col int, t *Tetrimino) bool {
 			}
 		}
 	}
+	fmt.Println("done checking Piece conflinct")
 
 	return false
 }
